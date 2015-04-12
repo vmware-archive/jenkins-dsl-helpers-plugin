@@ -31,7 +31,7 @@ class Project {
     String repo;
     Boolean setup_push_hooks = true;
     Boolean create_branches_webhook = false;
-    Boolean set_commit_status = false;
+    Boolean set_commit_status = true;
     Boolean trigger_new_prs = true;
 
     protected static String webhooks_user = 'salt-testing';
@@ -48,7 +48,7 @@ class Project {
         this.repo;
         this.setup_push_hooks = true;
         this.create_branches_webhook = false;
-        this.set_commit_status = false;
+        this.set_commit_status = true;
         this.trigger_new_prs = true;
         this._repo = null
         this._github = null
