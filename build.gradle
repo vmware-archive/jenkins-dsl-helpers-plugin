@@ -52,7 +52,7 @@ jenkinsPlugin {
     }
 }
 
-tasks.jpi.archiveName = "${shortName}-testing.hpi"
+tasks.jpi.archiveName = "${shortName}-staging.hpi"
 
 uploadArchives {
     repositories {
