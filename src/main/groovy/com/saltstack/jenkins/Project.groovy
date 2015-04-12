@@ -199,6 +199,7 @@ class Project {
             if ( project.getFullName() != job_name ) {
                 continue
             }
+            manager.listener.logger.println "Processing the push web-hook for ${project.getFullDisplayName()}"
             // Delete existing hooks
             def hook_url_regex = "${Jenkins.instance.getRootUrl()}buildByToken/build\\?job=${project.getFullName()}&token=(.*)"
             def hook_url_pattern = ~hook_url_regex
@@ -469,6 +470,13 @@ class Project {
             }
             manager.listener.logger.println "Processing ${folder.getFullDisplayName()}"
             def folder_main_build = folder.getJob('main-build')
+            if ( folder_main_build == null ) {
+                // The folder exists but the main build does not!? Delete the folder
+                manager.listener.logger.println "Did not find a main-build job for folder ${folder.getFullDisplayName()}. Deleting folder"
+                folder.delete()
+                folder.save()
+                continue
+            }
             if ( ! folder_main_build.disabled ) {
                 manager.listener.logger.println "The ${folder_main_build.getFullDisplayName()} job is not disabled. Continuing..."
                 continue
