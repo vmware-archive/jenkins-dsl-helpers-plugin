@@ -14,6 +14,8 @@ class Salt extends Project {
         this.name = 'salt'
         this.display_name = 'Salt'
         this.repo = 'saltstack/salt'
+        // Salt doesn't curently run build on push
+        this.setup_push_hooks = false;
         this.create_branches_webhook = true
     }
 
