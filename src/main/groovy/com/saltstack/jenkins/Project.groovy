@@ -19,8 +19,6 @@ import org.kohsuke.github.GHIssueState
 import org.kohsuke.github.GHCommitState
 import org.kohsuke.github.Requester
 import com.cloudbees.jenkins.GitHubRepositoryName
-import com.cloudbees.plugins.credentials.domains.Domain
-import com.cloudbees.plugins.credentials.SystemCredentialsProvider
 
 import com.saltstack.jenkins.GitHubMarkup
 
@@ -70,45 +68,8 @@ class Project {
         return this._repo
     }
 
-    def GHRepository getRepository(authtoken) {
-        LOGGER.fine("Project.getRepository with auth token")
-        if ( this._github == null ) {
-            LOGGER.fine("Class level _github object is null. Populating")
-            try {
-                this._github = GitHub.connectUsingOAuth(authtoken)
-                this._authenticated = true
-                LOGGER.fine("Project.getRepository with auth token authentication successfull.")
-            } catch (Throwable e2) {
-                this._github = GitHub.connectAnonymously()
-                this._authenticated = false
-                LOGGER.log(
-                    Level.SEVERE,
-                    "Project.getRepository with auth token authentication failed. Connected annonymously.",
-                    e2
-                )
-            }
-        }
-        if ( this._repo == null ) {
-            LOGGER.fine("Project.getRepository with auth token returning from cached _github connection")
-            this._repo = this._github.getRepository(this.repo)
-        }
-        return this._repo
-    }
-
     def GHRepository getAuthenticatedRepository() {
-        LOGGER.fine("Iterating through SystemCredentialsProvider.getInstance().getCredentials(Domain.global())")
-        SystemCredentialsProvider.getInstance().getCredentials(Domain.global()).find { creds ->
-            LOGGER.fine("Credentials ID: ${creds.id}")
-            if ( creds.id == this.name ) {
-                LOGGER.fine("Found global credentials matching this repo as it's ID. Using those credentials")
-                resetRepoGitHub()
-                getRepository(creds.password.toString())
-                return true
-            }
-            return false
-        }
         if ( this._repo == null ) {
-           LOGGER.fine("Loading authenticated repository using GitHubRepositoryName.create()")
             try {
                 def github_repo_url = "https://github.com/${this.repo}"
                 this._repo = GitHubRepositoryName.create(github_repo_url).resolve().iterator().next()
