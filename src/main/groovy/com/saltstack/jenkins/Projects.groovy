@@ -33,31 +33,9 @@ class Projects {
         return new JsonBuilder(this.toMap(include_branches, include_prs)).toString()
     }
 
-    def setup_projects_webhooks(manager) {
-        this.get_projects().each() { project ->
-            manager.listener.logger.println "Setting up webhooks for ${project.display_name}"
-            project.configureBranchesWebHooks(manager)
-            project.configurePullRequestsWebHooks(manager)
-        }
-    }
-
     def trigger_projects_pull_request_seed_jobs(manager) {
         this.get_projects().each() { project ->
             project.triggerPullRequestSeedJob(manager)
-        }
-    }
-
-    def setup_projects_push_hooks(manager) {
-        new PushHooksRecorder(manager.build).load().each { project_name, job_names ->
-            for ( project in this.get_projects() ) {
-                if ( project.name != project_name ) {
-                    continue
-                }
-                job_names.unique().each { job_name ->
-                    project.configurePushWebHook(manager, job_name)
-                }
-                break
-            }
         }
     }
 
