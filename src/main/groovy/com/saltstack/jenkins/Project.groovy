@@ -244,7 +244,7 @@ class Project {
                     rendered_description: """
                         <h3>
                             <img src="${hudson.Functions.getResourcePath()}/plugin/github/logov3.png"/>
-                            <a href="${pr.url}" title="${pr.title}" alt="${pr.title}">#${pr.number}</a>
+                            <a href="${pr.getHtmlUrl()}" title="${pr.title}" alt="${pr.title}">#${pr.number}</a>
                             &mdash;
                             ${pr.title}
                         <h3>
