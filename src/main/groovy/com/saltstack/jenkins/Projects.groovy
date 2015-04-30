@@ -34,9 +34,7 @@ class Projects {
     }
 
     def trigger_projects_pull_request_seed_jobs(manager) {
-        this.get_projects().each() { project ->
-            project.triggerPullRequestSeedJob(manager)
-        }
+        this.filterOutProject(manager.build).triggerPullRequestSeedJob(manager)
     }
 
     def filterOutProject(build) {
