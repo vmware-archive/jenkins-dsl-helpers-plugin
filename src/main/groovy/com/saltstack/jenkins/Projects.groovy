@@ -17,7 +17,8 @@ class Projects {
             new LibNACL(),
             new RAET(),
             new Salt(),
-            new Sorbic()
+            new Sorbic(),
+            new SaltTesting()
         ]
     }
 
