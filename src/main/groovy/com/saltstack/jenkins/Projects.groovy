@@ -18,7 +18,8 @@ class Projects {
             new RAET(),
             new Salt(),
             new Sorbic(),
-            new SaltTesting()
+            new SaltTesting(),
+            new SaltPyLint()
         ]
     }
 

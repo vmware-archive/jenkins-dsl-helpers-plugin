@@ -11,8 +11,4 @@ final class SaltTesting extends Project {
         this.repo = 'saltstack/salt-testing'
     }
 
-    def getRepositoryBranches() {
-        return ['develop']
-    }
-
 }
